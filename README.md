@@ -65,6 +65,8 @@ HashiCups uses the following microservices:
 
 ## How-to Steps
 
+For this section, it is recommended that you use two separate terminals for the smoothest experience, ensuring that you store the HCP Consul details in separate terminals
+
 #### 1. Deploy Kubernetes clusters and HCP Consul
 
 ```
@@ -77,7 +79,14 @@ terraform -chdir=dc2 init
 terraform -chdir=dc2 apply --auto-approve
 ```
 
-#### 2. Configure `kubectl`
+#### 2. Configure `kubectl` and terminals environment variables
+
+_This command enables your terminals to access your AWS environment_
+
+```
+export AWS_ACCESS_KEY_ID=<Insert AWS Access Key ID>
+export AWS_SECRET_ACCESS_KEY=<Insert AWS Secret Access Key>
+```
 
 _This command stores the cluster connection information in the `dc1` alias_
 
@@ -97,6 +106,14 @@ aws eks \
     --region <Insert Region EKS deployed into> \
     --name <Insert EKS cluster name> \
     --alias=dc2
+```
+
+_These commands enables connectivity to your respective HCP Consul clusters; ensure that you use separate terminals for separate Consul addresses_
+
+```
+export CONSUL_HTTP_ADDR=<Insert HCP Consul Address>
+export CONSUL_HTTP_TOKEN=<Insert HCP Consul Token>
+export CONSUL_HTTP_SSL=true
 ```
 
 #### 3. Confirm Consul is deployed in the Kubernetes pods by inspecting them
@@ -122,14 +139,26 @@ for service in {products-api,postgres,intentions-dc2}; do kubectl --context=dc2 
 #### 5. Confirm services are registered with HCP Consul
 
 _Verify that services are deployed in `dc1` HCP Consul cluster_
+
 `consul catalog services`
 
 _Verify that services are deployed in `dc2` HCP Consul cluster_
+
 `consul catalog services`
 
 #### 6. Explore the HashiCups application in the browser
 
 `kubectl --context=dc1 port-forward deploy/nginx 8080:80`
+
+#### 7. Within the HCP Consul Management plane, conduct the cluster-peering via the UI
+
+#### 8. Export the products-api service
+
+#### 9. Create a cross-cluster service intention
+
+#### 10. Setup new upstream for the public-api service
+
+#### 11. Verify peered Consul services
 
 ## Contributors
 
