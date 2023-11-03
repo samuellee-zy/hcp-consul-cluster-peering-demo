@@ -72,7 +72,61 @@ terraform -chdir=dc1 init
 
 terraform -chdir=dc1 apply --auto-approve
 
+terraform -chdir=dc2 init
+
+terraform -chdir=dc2 apply --auto-approve
 ```
+
+2. Configure `kubectl`
+   _This command stores the cluster connection information in the `dc1` alias_
+
+```
+aws eks \
+    update-kubeconfig \
+    --region <Insert Region EKS deployed into> \
+    --name <Insert EKS cluster name> \
+    --alias=dc1
+```
+
+_This command stores the cluster connection information in the `dc2` alias_
+
+```
+aws eks \
+    update-kubeconfig \
+    --region <Insert Region EKS deployed into> \
+    --name <Insert EKS cluster name> \
+    --alias=dc2
+```
+
+3. Confirm Consul is deployed in the Kubernetes pods by inspecting them
+   `kubectl --context=dc1 get pods`
+
+`kubectl --context=dc2 get pods`
+
+4. Deploy HashiCups
+
+_Deploy the `frontend`, `nginx`, `public-api` and `payments` services along with the `intentions-dc1` to the `dc1` Kubernetes cluster_
+
+```
+for service in {frontend,nginx,public-api,payments,intentions-dc1}; do kubectl --context=dc1 apply -f hashicups-v1.0.2/$service.yaml; done
+```
+
+_Deploy the `product-api` and `postgres` services along with the `intentions-dc2` to the `dc2` Kubernetes cluster_
+
+```
+for service in {products-api,postgres,intentions-dc2}; do kubectl --context=dc2 apply -f hashicups-v1.0.2/$service.yaml; done
+```
+
+5. Confirm services are registered with HCP Consul
+   _Verify that services are deployed in `dc1` HCP Consul cluster_
+   `consul catalog services`
+
+_Verify that services are deployed in `dc2` HCP Consul cluster_
+`consul catalog services`
+
+6. Explore the HashiCups application in the browser
+
+`kubectl --context=dc1 port-forward deploy/nginx 8080:80`
 
 ## Contributors
 
