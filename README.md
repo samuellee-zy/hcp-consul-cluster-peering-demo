@@ -65,7 +65,7 @@ HashiCups uses the following microservices:
 
 ## How-to Steps
 
-1. Deploy Kubernetes clusters and HCP Consul
+#### 1. Deploy Kubernetes clusters and HCP Consul
 
 ```
 terraform -chdir=dc1 init
@@ -77,8 +77,9 @@ terraform -chdir=dc2 init
 terraform -chdir=dc2 apply --auto-approve
 ```
 
-2. Configure `kubectl`
-   _This command stores the cluster connection information in the `dc1` alias_
+#### 2. Configure `kubectl`
+
+_This command stores the cluster connection information in the `dc1` alias_
 
 ```
 aws eks \
@@ -98,12 +99,13 @@ aws eks \
     --alias=dc2
 ```
 
-3. Confirm Consul is deployed in the Kubernetes pods by inspecting them
-   `kubectl --context=dc1 get pods`
+#### 3. Confirm Consul is deployed in the Kubernetes pods by inspecting them
+
+`kubectl --context=dc1 get pods`
 
 `kubectl --context=dc2 get pods`
 
-4. Deploy HashiCups
+#### 4. Deploy HashiCups
 
 _Deploy the `frontend`, `nginx`, `public-api` and `payments` services along with the `intentions-dc1` to the `dc1` Kubernetes cluster_
 
@@ -117,14 +119,15 @@ _Deploy the `product-api` and `postgres` services along with the `intentions-dc2
 for service in {products-api,postgres,intentions-dc2}; do kubectl --context=dc2 apply -f hashicups-v1.0.2/$service.yaml; done
 ```
 
-5. Confirm services are registered with HCP Consul
-   _Verify that services are deployed in `dc1` HCP Consul cluster_
-   `consul catalog services`
+#### 5. Confirm services are registered with HCP Consul
+
+_Verify that services are deployed in `dc1` HCP Consul cluster_
+`consul catalog services`
 
 _Verify that services are deployed in `dc2` HCP Consul cluster_
 `consul catalog services`
 
-6. Explore the HashiCups application in the browser
+#### 6. Explore the HashiCups application in the browser
 
 `kubectl --context=dc1 port-forward deploy/nginx 8080:80`
 
