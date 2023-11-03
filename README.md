@@ -40,35 +40,39 @@ HashiCups is a coffee-shop demo application. It has a microservices architecture
 
 HashiCups uses the following microservices:
 
-1. `nginx service`
+1. `nginx`
 
    - Description: NGINX instance that routes requests to the frontend microservice and serves as a reverse proxy to the public-api service.
 
-2. `frontend service`
+2. `frontend`
 
    - Description: Provides a React-based UI.
 
-3. `public-api service`
+3. `public-api`
 
    - Description: GraphQL public API that communicates with the products-api and the payments services.
 
-4. `product-api service`
+4. `product-api`
 
    - Description: Stores the core HashiCups application logic, including authentication, coffee (product) information, and orders.
 
-5. `postgres service`
+5. `postgres`
 
    - Description: Postgres database instance that stores user, product, and order information.
 
-6. `payments service`
+6. `payments`
    - Description: gRPC-based Java application service that handles customer payments.
 
 ## How-to Steps
 
 1. Deploy Kubernetes clusters and HCP Consul
 
-`terraform -chdir=dc1 init`
-`terraform -chdir=dc1 apply --auto-approve`
+```
+terraform -chdir=dc1 init
+
+terraform -chdir=dc1 apply --auto-approve
+
+```
 
 ## Contributors
 
