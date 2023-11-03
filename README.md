@@ -81,7 +81,7 @@ terraform -chdir=dc2 apply --auto-approve
 
 #### 2. Configure `kubectl` and terminals environment variables
 
-_This command enables your terminals to access your AWS environment_
+    _This command enables your terminals to access your AWS environment_
 
 ```
 export AWS_ACCESS_KEY_ID=<Insert AWS Access Key ID>
