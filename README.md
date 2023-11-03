@@ -67,7 +67,7 @@ HashiCups uses the following microservices:
 
 For this section, it is recommended that you use two separate terminals for the smoothest experience, ensuring that you store the HCP Consul details in separate terminals
 
-#### 1. Deploy Kubernetes clusters and HCP Consul
+### 1. Deploy Kubernetes clusters and HCP Consul
 
 ```
 terraform -chdir=dc1 init
@@ -79,9 +79,9 @@ terraform -chdir=dc2 init
 terraform -chdir=dc2 apply --auto-approve
 ```
 
-#### 2. Configure `kubectl` and terminals environment variables
+### 2. Configure `kubectl` and terminals environment variables
 
-      _This command enables your terminals to access your AWS environment_
+_This command enables your terminals to access your AWS environment_
 
 ```
 export AWS_ACCESS_KEY_ID=<Insert AWS Access Key ID>
@@ -116,13 +116,13 @@ export CONSUL_HTTP_TOKEN=<Insert HCP Consul Token>
 export CONSUL_HTTP_SSL=true
 ```
 
-#### 3. Confirm Consul is deployed in the Kubernetes pods by inspecting them
+### 3. Confirm Consul is deployed in the Kubernetes pods by inspecting them
 
 `kubectl --context=dc1 get pods`
 
 `kubectl --context=dc2 get pods`
 
-#### 4. Deploy HashiCups
+### 4. Deploy HashiCups
 
 _Deploy the `frontend`, `nginx`, `public-api` and `payments` services along with the `intentions-dc1` to the `dc1` Kubernetes cluster_
 
@@ -136,7 +136,7 @@ _Deploy the `product-api` and `postgres` services along with the `intentions-dc2
 for service in {products-api,postgres,intentions-dc2}; do kubectl --context=dc2 apply -f hashicups-v1.0.2/$service.yaml; done
 ```
 
-#### 5. Confirm services are registered with HCP Consul
+### 5. Confirm services are registered with HCP Consul
 
 _Verify that services are deployed in `dc1` HCP Consul cluster_
 
@@ -146,27 +146,27 @@ _Verify that services are deployed in `dc2` HCP Consul cluster_
 
 `consul catalog services`
 
-#### 6. Explore the HashiCups application in the browser
+### 6. Explore the HashiCups application in the browser
 
 `kubectl --context=dc1 port-forward deploy/nginx 8080:80`
 
-#### 7. Within the HCP Consul Management plane, conduct the cluster-peering via the UI
+### 7. Within the HCP Consul Management plane, conduct the cluster-peering via the UI
 
 --- Will be inserting image in here ---
 
-#### 8. Export the products-api service
+### 8. Export the products-api service
 
 `consul config write peering-config.hcl`
 
-#### 9. Create a cross-cluster service intention
+### 9. Create a cross-cluster service intention
 
 `consul config write peering-intentions.hcl`
 
-#### 10. Setup new upstream for the public-api service
+### 10. Setup new upstream for the public-api service
 
 `kubectl --context=dc1 apply -f k8s-yamls/public-api-peer.yaml`
 
-#### 11. Verify peered Consul services
+### 11. Verify peered Consul services
 
 `kubectl --context=dc1 port-forward deploy/nginx 8080:80`
 
