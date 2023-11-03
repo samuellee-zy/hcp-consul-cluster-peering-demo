@@ -81,7 +81,7 @@ terraform -chdir=dc2 apply --auto-approve
 
 #### 2. Configure `kubectl` and terminals environment variables
 
-    _This command enables your terminals to access your AWS environment_
+      _This command enables your terminals to access your AWS environment_
 
 ```
 export AWS_ACCESS_KEY_ID=<Insert AWS Access Key ID>
@@ -152,13 +152,23 @@ _Verify that services are deployed in `dc2` HCP Consul cluster_
 
 #### 7. Within the HCP Consul Management plane, conduct the cluster-peering via the UI
 
+--- Will be inserting image in here ---
+
 #### 8. Export the products-api service
+
+`consul config write peering-config.hcl`
 
 #### 9. Create a cross-cluster service intention
 
+`consul config write peering-intentions.hcl`
+
 #### 10. Setup new upstream for the public-api service
 
+`kubectl --context=dc1 apply -f k8s-yamls/public-api-peer.yaml`
+
 #### 11. Verify peered Consul services
+
+`kubectl --context=dc1 port-forward deploy/nginx 8080:80`
 
 ## Contributors
 
