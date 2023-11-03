@@ -6,8 +6,8 @@ This repo will contain everything you need to deploy HCP Consul, AWS EKS and a H
 
 - [Prerequisites](#prerequisites)
 - [Description](#description)
-- [Scenario Overview](#scenario)
-- [How-to Steps](#steps)
+- [Scenario Overview](#scenario-overview)
+- [How-to Steps](#how-to-steps)
 - [Contributors](#contributors)
 
 ## Prerequisites
