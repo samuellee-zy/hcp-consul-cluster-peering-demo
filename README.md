@@ -74,7 +74,9 @@ For this section, it is recommended that you use two separate terminals for the 
 terraform -chdir=dc1 init
 
 terraform -chdir=dc1 apply --auto-approve
+```
 
+```
 terraform -chdir=dc2 init
 
 terraform -chdir=dc2 apply --auto-approve
